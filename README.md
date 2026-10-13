@@ -1,5 +1,7 @@
 # Triagem de propostas - AgDev
 
+[![testes](https://github.com/victorsampaio/agdev-triagem-proposta/actions/workflows/testes.yml/badge.svg)](https://github.com/victorsampaio/agdev-triagem-proposta/actions/workflows/testes.yml)
+
 Skill do Claude (`triagem-proposta`) que faz a triagem de propostas de recuperação de pastagens degradadas e devolve um parecer: **SEGUE**, **RECUSADA** ou **REVISÃO HUMANA**, com todos os motivos.
 
 > Em construção. As instruções completas de instalação e uso serão adicionadas.
@@ -28,6 +30,7 @@ O enunciado deixa alguns pontos em aberto. As dúvidas foram enviadas à AgDev p
 | Regra | Decisão | Origem |
 |---|---|---|
 | R1 | Exatamente 100 ha passa. Área negativa ou que não seja número vai para revisão humana. | Enunciado e premissa |
+| Áreas | As áreas devem vir como número (`850`). Área enviada como texto (`"850"`) é considerada inválida e vai para revisão humana. | Premissa |
 | R2 | Alerta depois de 01/01/2020 recusa. Alerta no próprio dia 01/01/2020 não recusa. | Confirmado pela AgDev |
 | R2 | O campo aceita nulo (sem alerta), uma data ou uma lista de datas. Lista vazia é sem alerta. Basta um alerta depois do corte para recusar. | Confirmado pela AgDev |
 | R2 | Datas aceitas nos formatos `AAAA-MM-DD` e `DD/MM/AAAA`. Data inválida vai para revisão humana. | Premissa |
