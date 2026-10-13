@@ -43,7 +43,7 @@ def test_skill_md_esta_alinhado_com_os_parametros_do_codigo():
 def test_exemplos_json_do_skill_md_sao_validos_e_seguem():
     exemplos = re.findall(r"^\s*(\{\"id\".*\})\s*$", SKILL_MD, flags=re.MULTILINE)
 
-    assert len(exemplos) == 2
+    assert exemplos
     for exemplo in exemplos:
         assert avaliar(json.loads(exemplo)).parecer == SEGUE
 

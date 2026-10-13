@@ -36,7 +36,7 @@ Depois, é só pedir em português. Por exemplo:
 - "Qual o parecer desta proposta?" seguido do JSON colado.
 - "Proposta P-010: 250 ha de pastagem degradada, matrícula de 900 ha, CAR de 910 ha, CAR ativo, CPF regular."
 
-O Claude não decide o parecer: ele roda o script da skill, que aplica as regras por código, e mostra o card sem alterações. Quando os dados vêm em texto livre, ele monta o JSON, mostra para você e pede confirmação antes de rodar. As instruções completas estão no [`SKILL.md`](.claude/skills/triagem-proposta/SKILL.md).
+O Claude não decide o parecer: ele roda o script da skill, que aplica as regras por código, e mostra o card sem alterações. Quando os dados vêm em texto livre, ele monta o JSON, mostra para você e pede confirmação antes de rodar. Propostas coladas na conversa são gravadas em `propostas/<id>.json` (pasta ignorada pelo git) antes da triagem. Por isso, o Claude Code pede permissão para gravar esse arquivo e para rodar o `python`. As instruções completas estão no [`SKILL.md`](.claude/skills/triagem-proposta/SKILL.md), e os testes feitos com o Claude Code estão registrados em [`docs/validacao-claude-code.md`](docs/validacao-claude-code.md).
 
 ## Usar pela linha de comando
 

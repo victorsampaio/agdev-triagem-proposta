@@ -32,13 +32,7 @@ Esta skill aplica as regras de triagem R1 a R6 **por código**, com o script `sc
      python "<pasta desta skill>/scripts/triagem.py" caminho/da/proposta.json
      ```
 
-   - Proposta que está na conversa (pela entrada padrão, sem criar arquivo):
-
-     ```bash
-     python "<pasta desta skill>/scripts/triagem.py" <<'EOF'
-     {"id": "P-001", "area_degradada_ha": 850, "area_matricula_ha": 1200, "area_car_ha": 1190, "alerta_desmatamento": null, "situacao_car": "Ativo", "situacao_cadastral": "Regular"}
-     EOF
-     ```
+   - Proposta que está na conversa (JSON colado ou montado a partir de texto): grave o JSON confirmado em `propostas/<id>.json`, na pasta de trabalho atual, e rode o script nesse arquivo. Não coloque o JSON dentro do comando: o Claude Code bloqueia comandos com JSON embutido. O arquivo também fica como registro do que foi triado.
 
    - No repositório do projeto, a pasta desta skill é `.claude/skills/triagem-proposta`.
    - Opções: `--formato json` devolve o parecer em JSON; `--saida card.md` grava o card num arquivo.
