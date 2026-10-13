@@ -219,7 +219,7 @@ def r5_diferenca_areas(proposta):
             "R5",
             None,
             "Não foi possível comparar as áreas da matrícula e do CAR.",
-            "Comparar as áreas da matrícula e do CAR depois de obter "
+            "Comparar as áreas da matrícula e do CAR depois de obter o que falta: "
             f"{' e '.join(_campo(c) for c in faltando)}.",
         )]
 

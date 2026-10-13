@@ -21,6 +21,45 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
+## Usar pela linha de comando
+
+Na pasta do projeto, com o ambiente virtual ativado:
+
+```bash
+python -m triagem exemplos/P-004.json                  # card em Markdown
+python -m triagem exemplos/P-004.json --formato json   # parecer em JSON
+python -m triagem exemplos/P-004.json --saida card.md  # grava o card em UTF-8
+python -m triagem < exemplos/P-004.json                # lê a proposta da entrada padrão
+```
+
+No PowerShell, prefira `--saida` em vez de redirecionar com `>`, que grava em outra codificação e estraga os acentos.
+
+Se o arquivo não existir, o JSON estiver quebrado ou não for um objeto, o comando mostra uma mensagem começando com `Erro:` e termina com código 2.
+
+Card gerado para a proposta P-004:
+
+```markdown
+# Triagem P-004: RECUSADA
+
+**Parecer:** RECUSADA
+
+**Versão das regras:** 1.0.0
+
+## Motivos
+
+- **R2 (RECUSADA):** Alerta de desmatamento em 15/03/2023, posterior a 01/01/2020.
+- **R3 (REVISÃO HUMANA):** Situação do CAR é "Pendente".
+
+## Pendências
+
+- [ ] Comunicar ao proponente a recusa: alerta de desmatamento posterior a 01/01/2020.
+- [ ] Verificar com o proponente a regularização do CAR.
+
+## Próximo passo
+
+Comunicar a recusa ao proponente. A proposta não segue para o comitê.
+```
+
 ## Premissas e decisões
 
 O enunciado deixa alguns pontos em aberto. As dúvidas foram enviadas à AgDev por e-mail, e as respostas de 13/10/2026 estão marcadas abaixo. Cada decisão tem um teste automatizado que a comprova.
