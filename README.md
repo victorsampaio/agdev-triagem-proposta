@@ -54,6 +54,38 @@ Depois, é só pedir em português. Por exemplo:
 
 O Claude não decide o parecer: ele roda o script da skill, que aplica as regras por código, e mostra o card sem alterações. Quando os dados vêm em texto livre, ele monta o JSON, mostra para você e pede confirmação antes de rodar. Propostas coladas na conversa são gravadas em `propostas/<id>.json` (pasta ignorada pelo git) antes da triagem. Por isso, o Claude Code pede permissão para gravar esse arquivo e para rodar o `python`.
 
+### Fluxo de uso
+
+```mermaid
+flowchart TD
+    A["Analista pede a triagem no Claude Code"] --> B{"Como a proposta chegou?"}
+    B -->|"Arquivo .json"| R["Claude roda o script da skill"]
+    B -->|"JSON colado"| G["Claude grava a proposta em propostas/ID.json"]
+    B -->|"Texto livre"| M["Claude monta o JSON só com o que foi informado"]
+    M --> F{"Falta algum campo?"}
+    F -->|"Sim"| P["Claude pergunta ao analista, sem inventar valores"]
+    P --> M
+    F -->|"Não, ou o analista aceita rodar sem ele"| C{"Analista confirma o JSON?"}
+    C -->|"Não"| M
+    C -->|"Sim"| G
+    G --> R
+    R --> E{"Entrada válida?"}
+    E -->|"Não"| X["Claude mostra a mensagem 'Erro:' e ajuda a corrigir"]
+    X --> B
+    E -->|"Sim"| K["Script aplica R1 a R6 e devolve o card; Claude mostra o card sem alterar"]
+    K -.->|"Analista pede para ignorar uma regra"| I["Claude mantém o parecer; exceção só com revisão humana ou comitê"]
+    K --> D{"Parecer"}
+    D -->|"SEGUE"| S["Encaminhar ao comitê de crédito (não é aprovação)"]
+    D -->|"REVISÃO HUMANA"| H["Analista resolve as pendências e pede nova triagem"]
+    D -->|"RECUSADA"| N["Comunicar a recusa ao proponente"]
+    H -.-> A
+    S --> T{"Analista pede para criar a tarefa?"}
+    H --> T
+    N --> T
+    T -->|"Sim"| Q["Script roda com --publicar; a tarefa vai para o quadro, na coluna do parecer"]
+    T -->|"Não"| Z["Fim"]
+```
+
 As instruções completas estão no [`SKILL.md`](.claude/skills/triagem-proposta/SKILL.md), e os testes feitos com o Claude Code estão registrados em [`docs/validacao-claude-code.md`](docs/validacao-claude-code.md).
 
 A skill foi testada só no Claude Code. Para o Claude Desktop, a pasta da skill teria de ser compactada e enviada nas configurações do aplicativo, mas isso não foi testado.
