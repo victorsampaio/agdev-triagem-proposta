@@ -5,6 +5,7 @@ Uso:
     python -m triagem proposta.json --formato json
     python -m triagem proposta.json --saida card.md
     python -m triagem < proposta.json
+    python -m triagem proposta.json --publicar
 """
 
 import argparse
@@ -14,6 +15,7 @@ from pathlib import Path
 
 from triagem.card import gerar_card
 from triagem.parecer import avaliar
+from triagem.tarefas import PASTA_PADRAO, ErroPublicacao, QuadroSimulado
 
 CODIGO_ERRO_ENTRADA = 2
 
@@ -60,6 +62,14 @@ def _argumentos(argv):
         help="md: card em Markdown (padrão). json: parecer em JSON.",
     )
     parser.add_argument("--saida", help="grava o resultado neste arquivo, em UTF-8.")
+    parser.add_argument(
+        "--publicar", action="store_true",
+        help="cria ou atualiza a tarefa da proposta no quadro simulado.",
+    )
+    parser.add_argument(
+        "--quadro", default=str(PASTA_PADRAO),
+        help=f"pasta do quadro simulado (padrão: {PASTA_PADRAO.as_posix()}).",
+    )
     return parser.parse_args(argv)
 
 
@@ -79,13 +89,23 @@ def main(argv=None):
 
     if args.saida is None:
         sys.stdout.write(texto)
-        return 0
-    try:
-        Path(args.saida).write_text(texto, encoding="utf-8")
-    except OSError as erro:
-        print(f"Erro: não foi possível gravar {args.saida}: {erro.strerror}.", file=sys.stderr)
-        return CODIGO_ERRO_ENTRADA
-    print(f"Resultado gravado em {args.saida} (parecer: {resultado.parecer}).")
+    else:
+        try:
+            Path(args.saida).write_text(texto, encoding="utf-8")
+        except OSError as erro:
+            print(f"Erro: não foi possível gravar {args.saida}: {erro.strerror}.", file=sys.stderr)
+            return CODIGO_ERRO_ENTRADA
+        print(f"Resultado gravado em {args.saida} (parecer: {resultado.parecer}).")
+
+    if args.publicar:
+        try:
+            tarefa, nova = QuadroSimulado(args.quadro).publicar(resultado)
+        except ErroPublicacao as erro:
+            print(f"Erro: {erro}", file=sys.stderr)
+            return CODIGO_ERRO_ENTRADA
+        acao = "criada" if nova else "atualizada"
+        destino = Path(args.quadro) / tarefa.arquivo
+        print(f"Tarefa {acao} no quadro: {destino} (coluna {tarefa.coluna}).", file=sys.stderr)
     return 0
 
 

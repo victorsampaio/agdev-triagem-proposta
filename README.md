@@ -134,6 +134,26 @@ Card gerado para a proposta P-004:
 Comunicar a recusa ao proponente. A proposta não segue para o comitê.
 ```
 
+## Criar a tarefa no quadro (integração simulada)
+
+O enunciado não exige conexão com um sistema real. Por isso, a integração simula um gerenciador de tarefas numa pasta local:
+
+```bash
+python -m triagem exemplos/P-004.json --publicar
+```
+
+O comando mostra o card normalmente e cria a tarefa em `saida/tarefas/` (pasta ignorada pelo git):
+
+- `P-004.md`: o card da proposta;
+- `quadro.json`: a lista de tarefas, com coluna, parecer, versão das regras e data;
+- `quadro.md`: o quadro para leitura, com as colunas **Comitê de crédito** (SEGUE), **Revisão humana** e **Recusadas**.
+
+Se a mesma proposta for triada de novo, por exemplo depois de resolver as pendências, a tarefa é atualizada e muda de coluna, sem duplicar. Para usar outra pasta, acrescente `--quadro outra/pasta`.
+
+No Claude Code, basta pedir "crie a tarefa" depois da triagem. O Claude só publica quando o analista pede.
+
+Para ligar a um gerenciador real (Asana, Trello, TickTick), basta escrever outra classe com o mesmo método `publicar` de `triagem/tarefas.py`. As regras não mudam.
+
 ## Premissas e decisões
 
 O enunciado deixa alguns pontos em aberto. As dúvidas foram enviadas à AgDev por e-mail, e as respostas de 13/10/2026 estão marcadas abaixo. Cada decisão tem um teste automatizado que a comprova.
@@ -166,6 +186,7 @@ triagem/
     regras.py           parâmetros e regras R1 a R6
     parecer.py          consolidação do parecer
     card.py             card em Markdown
+    tarefas.py          quadro de tarefas simulado
     __main__.py         linha de comando (python -m triagem)
 tests/                  testes automatizados (pytest)
 exemplos/               propostas P-001 a P-005

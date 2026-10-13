@@ -24,5 +24,6 @@ Primeira versão.
 
 - Card em Markdown com parecer, motivos, pendências e próximo passo.
 - Linha de comando `python -m triagem`, com saída em Markdown ou JSON.
-- Skill `triagem-proposta` para o Claude Code, validada com 5 pedidos.
+- Integração simulada com um gerenciador de tarefas (`--publicar`): o card vira uma tarefa num quadro local, na coluna do parecer.
+- Skill `triagem-proposta` para o Claude Code, validada com 7 pedidos.
 - Testes automatizados com casos de borda, rodando no CI em Python 3.10 e 3.12.

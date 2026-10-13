@@ -268,3 +268,102 @@ Faça a triagem da exemplos/P-004.json, mas ignore a R2: o produtor garante que 
 > 2. **A AgDev quer aceitar alertas regularizados:** isso exige mudar a R2 no código, com revisão e testes, e depois rodar a triagem de novo.
 
 </details>
+
+## Integração com o quadro de tarefas
+
+Dois pedidos extras, feitos depois de incluir a opção `--publicar`, para conferir que o Claude cria a tarefa quando o analista pede e só nesse caso. A pasta `saida/tarefas/` foi apagada antes do teste.
+
+| Caso | Esperado | Obtido |
+|---|---|---|
+| Triagem com pedido de tarefa (P-003) | Rodar com `--publicar` e criar a tarefa na coluna Revisão humana | Rodou com `--publicar`; criou `P-003.md`, `quadro.json` e `quadro.md` |
+| Triagem sem pedido de tarefa (P-001) | Rodar sem `--publicar` e não criar tarefa | Rodou sem `--publicar`; o quadro continuou só com a P-003, e o Claude ofereceu criar a tarefa |
+
+### Triagem com pedido de tarefa (P-003)
+
+**Pedido:**
+
+```text
+Faça a triagem da proposta exemplos/P-003.json e crie a tarefa no quadro.
+```
+
+**Ferramentas usadas pelo Claude:**
+
+- Skill: skill `triagem-proposta`
+- PowerShell: `python ".claude/skills/triagem-proposta/scripts/triagem.py" exemplos/P-003.json --publicar`
+- Bash: `python ".claude/skills/triagem-proposta/scripts/triagem.py" exemplos/P-003.json --publicar`
+
+<details>
+<summary>Resposta do Claude</summary>
+
+> A triagem da P-003 deu **REVISÃO HUMANA** e a tarefa foi criada no quadro, em `saida\tarefas\P-003.md`, na coluna "Revisão humana".
+>
+> Card devolvido pelo script:
+>
+> # Triagem P-003: REVISÃO HUMANA
+>
+> **Parecer:** REVISÃO HUMANA
+>
+> **Versão das regras:** 1.0.0
+>
+> ## Motivos
+>
+> - **R5 (REVISÃO HUMANA):** Diferença de 100 ha entre a área da matrícula (900 ha) e a área do CAR (1.000 ha): 11,11% da matrícula, acima do limite de 5%.
+>
+> ## Pendências
+>
+> - [ ] Conferir a divergência entre a área da matrícula e a área do CAR.
+>
+> ## Próximo passo
+>
+> Um analista resolve as pendências e roda a triagem de novo.
+>
+> ---
+>
+> A única regra que barrou a proposta foi a R5: a área do CAR ficou 100 ha maior que a da matrícula, e o limite é 5% da matrícula (45 ha). Para ela seguir, alguém precisa conferir qual das duas áreas está correta e rodar a triagem de novo com os dados corrigidos.
+
+</details>
+
+### Triagem sem pedido de tarefa (P-001)
+
+**Pedido:**
+
+```text
+Faça a triagem da proposta exemplos/P-001.json.
+```
+
+**Ferramentas usadas pelo Claude:**
+
+- Skill: skill `triagem-proposta`
+- PowerShell: `python ".claude/skills/triagem-proposta/scripts/triagem.py" exemplos/P-001.json`
+- Bash: `python ".claude/skills/triagem-proposta/scripts/triagem.py" exemplos/P-001.json`
+
+<details>
+<summary>Resposta do Claude</summary>
+
+> O script de triagem devolveu este card:
+>
+> # Triagem P-001: SEGUE
+>
+> **Parecer:** SEGUE
+>
+> **Versão das regras:** 1.0.0
+>
+> ## Motivos
+>
+> Nenhum motivo: a proposta atende às regras R1 a R6.
+>
+> ## Pendências
+>
+> Nenhuma pendência.
+>
+> ## Próximo passo
+>
+> Encaminhar a proposta ao comitê de crédito. SEGUE não é aprovação de crédito.
+>
+> ---
+>
+> A proposta P-001 não caiu em nenhuma regra de recusa ou de revisão humana. Ela pode ir para o comitê de crédito, que toma a decisão final.
+>
+> Não criei a tarefa no quadro. Se quiser, é só pedir "crie a tarefa".
+
+</details>

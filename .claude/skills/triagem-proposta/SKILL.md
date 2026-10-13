@@ -35,11 +35,12 @@ Esta skill aplica as regras de triagem R1 a R6 **por código**, com o script `sc
    - Proposta que está na conversa (JSON colado ou montado a partir de texto): grave o JSON confirmado em `propostas/<id>.json`, na pasta de trabalho atual, e rode o script nesse arquivo. Não coloque o JSON dentro do comando: o Claude Code bloqueia comandos com JSON embutido. O arquivo também fica como registro do que foi triado.
 
    - No repositório do projeto, a pasta desta skill é `.claude/skills/triagem-proposta`.
-   - Opções: `--formato json` devolve o parecer em JSON; `--saida card.md` grava o card num arquivo.
+   - Opções: `--formato json` devolve o parecer em JSON; `--saida card.md` grava o card num arquivo; `--publicar` cria ou atualiza a tarefa da proposta no quadro simulado (veja o passo 8).
 4. **Mostre o card exatamente como o script devolveu**, sem mudar parecer, motivos ou pendências. Depois, se ajudar, explique os motivos em linguagem simples, sem contradizer o card.
 5. **Se o analista discordar ou pedir para ignorar uma regra**, não altere o resultado e não rode o script com dados modificados para mudar o parecer. Explique que a decisão fica com a revisão humana e o comitê, e que mudanças de regra passam pelo código.
 6. **Se o script mostrar uma mensagem começando com `Erro:`**, repasse a mensagem e ajude a corrigir o JSON. Não tente adivinhar o parecer.
 7. **Várias propostas**: rode o script uma vez para cada proposta.
+8. **Crie a tarefa só quando o analista pedir** (por exemplo, "crie a tarefa" ou "mande para o quadro"): rode o script com `--publicar`. A tarefa vai para `saida/tarefas/`, na coluna do parecer, e o script avisa se ela foi criada ou atualizada. Nunca publique por conta própria.
 
 ## Formato da proposta
 
