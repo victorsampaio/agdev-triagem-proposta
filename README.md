@@ -58,33 +58,24 @@ O Claude não decide o parecer: ele roda o script da skill, que aplica as regras
 
 ```mermaid
 flowchart TD
-    A["Analista pede a triagem no Claude Code"] --> B{"Como a proposta chegou?"}
-    B -->|"Arquivo .json"| R["Claude roda o script da skill"]
+    A["Analista pede a triagem no Claude Code"] --> B{"Como veio a proposta?"}
+    B -->|"Arquivo .json"| R["Script aplica as regras R1 a R6"]
     B -->|"JSON colado"| G["Claude grava a proposta em propostas/ID.json"]
-    B -->|"Texto livre"| M["Claude monta o JSON só com o que foi informado"]
-    M --> F{"Falta algum campo?"}
-    F -->|"Sim"| P["Claude pergunta ao analista, sem inventar valores"]
-    P --> M
-    F -->|"Não, ou o analista aceita rodar sem ele"| C{"Analista confirma o JSON?"}
-    C -->|"Não"| M
-    C -->|"Sim"| G
+    B -->|"Texto livre"| M["Claude monta o JSON sem inventar dados, pergunta o que falta e pede confirmação"]
+    M -->|"Analista confirma"| G
     G --> R
-    R --> E{"Entrada válida?"}
-    E -->|"Não"| X["Claude mostra a mensagem 'Erro:' e ajuda a corrigir"]
-    X --> B
-    E -->|"Sim"| K["Script aplica R1 a R6 e devolve o card; Claude mostra o card sem alterar"]
-    K -.->|"Analista pede para ignorar uma regra"| I["Claude mantém o parecer; exceção só com revisão humana ou comitê"]
+    R -->|"Entrada inválida"| X["Claude mostra o erro e ajuda a corrigir o JSON"]
+    R -->|"Entrada válida"| K["Claude mostra o card exatamente como o script gerou"]
     K --> D{"Parecer"}
-    D -->|"SEGUE"| S["Encaminhar ao comitê de crédito (não é aprovação)"]
+    D -->|"SEGUE"| S["Encaminhar ao comitê de crédito"]
     D -->|"REVISÃO HUMANA"| H["Analista resolve as pendências e pede nova triagem"]
     D -->|"RECUSADA"| N["Comunicar a recusa ao proponente"]
-    H -.-> A
-    S --> T{"Analista pede para criar a tarefa?"}
-    H --> T
-    N --> T
-    T -->|"Sim"| Q["Script roda com --publicar; a tarefa vai para o quadro, na coluna do parecer"]
-    T -->|"Não"| Z["Fim"]
+    S -.-> Q["Se o analista pedir: tarefa criada no quadro, na coluna do parecer"]
+    H -.-> Q
+    N -.-> Q
 ```
+
+Em qualquer etapa, se o analista pedir para ignorar uma regra ou mudar o parecer, o Claude mantém o resultado do script. Exceções são decididas pela revisão humana ou pelo comitê.
 
 As instruções completas estão no [`SKILL.md`](.claude/skills/triagem-proposta/SKILL.md), e os testes feitos com o Claude Code estão registrados em [`docs/validacao-claude-code.md`](docs/validacao-claude-code.md).
 
