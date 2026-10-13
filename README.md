@@ -21,6 +21,23 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
+## Usar com o Claude Code
+
+A skill fica em `.claude/skills/triagem-proposta/`, e o Claude Code a reconhece automaticamente quando é aberto na pasta do projeto.
+
+```bash
+cd agdev-triagem-proposta
+claude
+```
+
+Depois, é só pedir em português. Por exemplo:
+
+- "Faça a triagem da proposta exemplos/P-004.json."
+- "Qual o parecer desta proposta?" seguido do JSON colado.
+- "Proposta P-010: 250 ha de pastagem degradada, matrícula de 900 ha, CAR de 910 ha, CAR ativo, CPF regular."
+
+O Claude não decide o parecer: ele roda o script da skill, que aplica as regras por código, e mostra o card sem alterações. Quando os dados vêm em texto livre, ele monta o JSON, mostra para você e pede confirmação antes de rodar. As instruções completas estão no [`SKILL.md`](.claude/skills/triagem-proposta/SKILL.md).
+
 ## Usar pela linha de comando
 
 Na pasta do projeto, com o ambiente virtual ativado:
