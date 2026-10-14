@@ -18,9 +18,9 @@ Toda publicação no repositório (push para o `main`) passou pela minha aprova�
 
 ## Como conferi o que a IA produziu
 
-- **Testes automáticos:** 137 testes, incluindo fronteiras (exatamente 100 ha, exatamente 5%, alerta no dia do corte) e entradas inválidas. Rodam no CI em Python 3.10 e 3.12.
+- **Testes automáticos:** 152 testes, incluindo fronteiras (exatamente 100 ha, exatamente 5%, alerta no dia do corte) e entradas inválidas. Rodam no CI em Python 3.10 e 3.12.
 - **Teste de mutação:** foram inseridos 4 erros de propósito no código (trocar `>` por `>=` na R5 e na R2, trocar `<` por `<=` na R1 e voltar a data de corte para 2021). Os testes pegaram os 4.
-- **Validação real no Claude Code:** 5 pedidos, incluindo texto livre incompleto e um pedido para ignorar a R2. A validação achou um erro na primeira versão da skill, já corrigido. Registro em [`validacao-claude-code.md`](validacao-claude-code.md).
+- **Validação real no Claude Code:** 7 pedidos, incluindo texto livre incompleto, um pedido para ignorar a R2 e a criação de tarefa no quadro só quando pedida. A validação achou um erro na primeira versão da skill, já corrigido. Registro em [`validacao-claude-code.md`](validacao-claude-code.md).
 
 ## O que deu errado e como foi corrigido
 
