@@ -54,6 +54,12 @@ Depois, é só pedir em português. Por exemplo:
 
 O Claude não decide o parecer: ele roda o script da skill, que aplica as regras por código, e mostra o card sem alterações. Quando os dados vêm em texto livre, ele monta o JSON, mostra para você e pede confirmação antes de rodar. Propostas coladas na conversa são gravadas em `propostas/<id>.json` (pasta ignorada pelo git) antes da triagem. Por isso, o Claude Code pede permissão para gravar esse arquivo e para rodar o `python`.
 
+### Passo a passo
+
+![Passo a passo: receba a proposta, peça ao Claude em português, confira os dados e o programa aplica as 6 regras. O resultado é SEGUE, REVISÃO HUMANA ou RECUSADA e, se o analista pedir, vira tarefa no quadro.](docs/img/passo-a-passo-triagem.jpg)
+
+A conferência dos dados (passo 3) só é pedida quando a proposta chega em texto livre. O fluxo detalhado vem logo abaixo.
+
 ### Fluxo de uso
 
 ```mermaid
@@ -213,7 +219,7 @@ triagem/
     __main__.py         linha de comando (python -m triagem)
 tests/                  testes automatizados (pytest)
 exemplos/               propostas P-001 a P-005
-docs/                   validação no Claude Code e registro de uso de IA
+docs/                   validação no Claude Code, registro de uso de IA e imagem do passo a passo
 DESIGN.md               desenho da solução e decisões de processo
 PERGUNTAS.md            respostas às perguntas técnicas
 CHANGELOG.md            histórico de versões das regras
